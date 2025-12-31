@@ -15,7 +15,7 @@
     <div class="card-body">
 
         <!-- Formulario -->
-        <form method="POST" action="{{ route('admin.contests.update', $contest->id) }}">
+        <form method="POST" action="{{ route('admin.contests.update', $contest->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -56,6 +56,33 @@
                 >{{ old('rules', $contest->rules) }}</textarea>
             </div>
 
+            <!-- Imagen actual -->
+            @if($contest->image)
+                <div class="mb-3">
+                    <label class="form-label text-light">Imagen actual</label><br>
+                    <img 
+                        src="{{ asset('storage/'.$contest->image) }}" 
+                        class="img-fluid rounded"
+                        style="max-height: 200px; border: 1px solid #444;"
+                    >
+                </div>
+            @endif
+
+            <!-- Cambiar imagen -->
+            <div class="mb-3">
+                <label class="form-label text-light">Cambiar imagen</label>
+                <input 
+                    type="file" 
+                    name="image" 
+                    class="form-control"
+                    accept="image/*"
+                    style="background-color: #2a2a2a; color: #fff; border: 1px solid #444;"
+                >
+                <small class="text-muted">
+                    Deja vacío si no deseas cambiar la imagen
+                </small>
+            </div>
+
             <!-- Fechas -->
             <div class="row">
                 <div class="col-md-6 mb-3">
@@ -85,10 +112,12 @@
 
             <!-- Botones -->
             <div class="d-flex justify-content-end gap-2 mt-4">
-                <a href="{{ route('admin.contests.index') }}" class="btn btn-outline-secondary" style="color: #e60000; border-color: #e60000;">
+                <a href="{{ route('admin.contests.index') }}" 
+                   class="btn btn-outline-secondary" 
+                   style="color: #e60000; border-color: #e60000;">
                     Cancelar
                 </a>
-                <button type="submit" class="btn btn-red fw-semibold" style="background-color: #e4d1d1ff;" >
+                <button type="submit" class="btn btn-red fw-semibold" style="background-color: #e4d1d1ff;">
                     Actualizar concurso
                 </button>
             </div>

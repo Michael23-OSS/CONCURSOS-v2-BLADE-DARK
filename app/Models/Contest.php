@@ -10,13 +10,15 @@ class Contest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'description',
-        'rules',
-        'start_date',
-        'end_date',
-        'created_by',
-    ];
+    'title',
+    'description',
+    'rules',
+    'start_date',
+    'end_date',
+    'created_by',
+    'image'
+];
+
 
     // ⚡ Agregar casts para fechas
     protected $casts = [

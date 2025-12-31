@@ -15,7 +15,7 @@
     <div class="card-body">
 
         <!-- Formulario -->
-        <form method="POST" action="{{ route('admin.contests.store') }}">
+        <form method="POST" action="{{ route('admin.contests.store') }}" enctype="multipart/form-data">
             @csrf
 
             <!-- Título -->
@@ -55,6 +55,21 @@
                     required
                     style="background-color: #2a2a2a; color: #fff; border: 1px solid #444;"
                 ></textarea>
+            </div>
+
+            <!-- Imagen -->
+            <div class="mb-3">
+                <label class="form-label text-light">Imagen del concurso</label>
+                <input 
+                    type="file" 
+                    name="image" 
+                    class="form-control"
+                    accept="image/*"
+                    style="background-color: #2a2a2a; color: #fff; border: 1px solid #444;"
+                >
+                <small class="text-muted">
+                    Formatos permitidos: jpg, png, webp (máx. 2MB)
+                </small>
             </div>
 
             <!-- Fechas -->

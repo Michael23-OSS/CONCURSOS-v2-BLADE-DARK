@@ -23,9 +23,8 @@
 
 .table-dark-glass thead {
     background: linear-gradient(90deg, #ffffffff, #ffffffff);
-    color: #000000ff !important; /* títulos en blanco */
+    color: #000 !important;
 }
-
 
 .table-dark-glass thead th {
     border-bottom: 1px solid rgba(255,255,255,0.15);
@@ -69,8 +68,8 @@
     border-radius: 18px;
     overflow: hidden;
 }
-/* ===== FIX BOOTSTRAP TABLE BACKGROUND ===== */
 
+/* FIX BOOTSTRAP */
 .table,
 .table thead,
 .table tbody,
@@ -80,22 +79,30 @@
     background-color: transparent !important;
 }
 
-/* Hover transparente con efecto glass */
 .table-dark-glass tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.06) !important;
 }
 
-/* Quitar rayas blancas de Bootstrap */
-.table-hover > tbody > tr:hover > * {
-    background-color: transparent !important;
+/* ===== IMAGEN ===== */
+.contest-thumb {
+    width: 70px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.25);
 }
 
-/* Bordes suaves */
-.table > :not(caption) > * > * {
-    box-shadow: none !important;
+.no-image {
+    width: 70px;
+    height: 45px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: #aaa;
 }
-
-
 </style>
 @endsection
 
@@ -121,6 +128,7 @@
             <table class="table table-hover align-middle mb-0 table-dark-glass">
                 <thead>
                     <tr>
+                        <th>Imagen</th>
                         <th>Título</th>
                         <th>Fechas</th>
                         <th class="text-center">Acciones</th>
@@ -130,6 +138,24 @@
                 <tbody>
                     @forelse($contests as $contest)
                         <tr>
+
+                            <!-- IMAGEN FIX -->
+                            <td>
+                                <div style="width:70px;height:45px;">
+                                    @if($contest->image)
+                                        <img
+                                            src="{{ Storage::url($contest->image) }}"
+                                            alt="Imagen concurso"
+                                            class="contest-thumb"
+                                            loading="lazy"
+                                            onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;no-image&quot;>Error</div>';"
+                                        >
+                                    @else
+                                        <div class="no-image">Sin imagen</div>
+                                    @endif
+                                </div>
+                            </td>
+
                             <td class="fw-semibold text-white">
                                 {{ $contest->title }}
                             </td>
@@ -182,7 +208,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center text-muted py-4">
+                            <td colspan="4" class="text-center text-muted py-4">
                                 No hay concursos registrados
                             </td>
                         </tr>
@@ -196,8 +222,8 @@
 
 <!-- Volver -->
 <div class="text-center mt-3">
-    <a href="/admin/dashboard" class="btn btn-red-outline w-100" style="background-color: #e4d1d1ff;">
-    Volver al panel
+    <a href="/admin/dashboard" class="btn btn-red-outline w-100" style="background-color:#e4d1d1ff;">
+        Volver al panel
     </a>
 </div>
 

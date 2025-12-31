@@ -1,4 +1,4 @@
-@extends('layouts.app') <!-- Usa tu layout principal de usuario -->
+@extends('layouts.app')
 
 @section('title', 'Concursos Disponibles')
 
@@ -26,22 +26,56 @@
         </div>
     @endif
 
-    <!-- Cards de concursos -->
+    <!-- Cards -->
     <div class="row g-4">
         @foreach($contests as $contest)
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card shadow-sm h-100" style="background-color: #1f1f1f;">
+                <div class="card shadow-sm h-100" style="background-color: #1f1f1f; border: 1px solid #333;">
+
+                    <!-- IMAGEN (FIX REAL) -->
+                    <div style="height:180px; background:#2a2a2a;">
+                        @if($contest->image)
+                            <img 
+                                src="{{ Storage::url($contest->image) }}"
+                                alt="Imagen del concurso"
+                                loading="lazy"
+                                decoding="async"
+                                onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'d-flex align-items-center justify-content-center h-100 text-muted\'>Imagen no disponible</div>';"
+                                style="
+                                    width:100%;
+                                    height:100%;
+                                    object-fit:cover;
+                                    border-top-left-radius:6px;
+                                    border-top-right-radius:6px;
+                                "
+                            >
+                        @else
+                            <div class="d-flex align-items-center justify-content-center h-100 text-muted">
+                                Sin imagen
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- BODY -->
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title" style="color: #e60000;">{{ $contest->title }}</h5>
-                        <p class="card-text text-light mb-2">{{ $contest->description }}</p>
+                        <h5 class="card-title" style="color: #e60000;">
+                            {{ $contest->title }}
+                        </h5>
+
+                        <p class="card-text text-light mb-2">
+                            {{ $contest->description }}
+                        </p>
+
                         <p class="card-text text-light small mb-2">
                             <strong>Reglas:</strong> {{ $contest->rules }}
                         </p>
+
                         <p class="card-text text-light small mb-4">
-                            <strong>Fechas:</strong> 
-                            {{ \Carbon\Carbon::parse($contest->start_date)->format('d/m/Y') }} – 
+                            <strong>Fechas:</strong>
+                            {{ \Carbon\Carbon::parse($contest->start_date)->format('d/m/Y') }} –
                             {{ \Carbon\Carbon::parse($contest->end_date)->format('d/m/Y') }}
                         </p>
+
                         <form method="POST" action="/contests/{{ $contest->id }}/participate" class="mt-auto">
                             @csrf
                             <button type="submit" class="btn btn-red w-100">
@@ -49,6 +83,7 @@
                             </button>
                         </form>
                     </div>
+
                 </div>
             </div>
         @endforeach
